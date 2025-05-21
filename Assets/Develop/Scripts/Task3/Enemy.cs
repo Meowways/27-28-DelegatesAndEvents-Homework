@@ -19,8 +19,6 @@ public class Enemy : MonoBehaviour
 
     private float _lifeTime;
 
-    private bool _isRandomPointSet;
-
     public bool IsDead => _isDead;
 
     public float LifeTime => _lifeTime;
@@ -40,8 +38,6 @@ public class Enemy : MonoBehaviour
 
         if (Vector3.Distance(transform.position, _targetPoint) <= MinDistanceToTarget)
             GetDirectionToMove();
-
-        Debug.Log(Vector3.Distance(transform.position, _targetPoint) <= MinDistanceToTarget);
     }
 
     public void SetDeathMark() => _isDead = true;
