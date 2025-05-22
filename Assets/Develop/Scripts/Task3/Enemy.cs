@@ -1,19 +1,12 @@
-using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDirectionalMover
 {
-    private const float MinDistanceToTarget = 0.05f;
+    private DirectionalMover _directionalMover;
 
-    private CharacterController _character;
+    private Controller _controller;
 
-    private Vector3 _targetPoint;
-
-    private Vector3 _directionToMove;
-
-    private float _currentSpeed = 1;
-
-    public Func<Enemy, bool> DestroyCondition;
+    private float _movingSpeed;
 
     private bool _isDead;
 
@@ -23,35 +16,26 @@ public class Enemy : MonoBehaviour
 
     public float LifeTime => _lifeTime;
 
-    private void Awake()
-    {
-        _character = GetComponent<CharacterController>();
+    public Vector3 Position => transform.position;
 
-        GetDirectionToMove();
+    public void Initialize(Controller controller, float movingSpeed)
+    {
+        _controller = controller;
+        _movingSpeed = movingSpeed;
+
+        _directionalMover = new DirectionalMover(GetComponent<CharacterController>(), _movingSpeed);
     }
 
     private void Update()
     {
         _lifeTime += Time.deltaTime;
 
-        _character.Move(_directionToMove.normalized * _currentSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, _targetPoint) <= MinDistanceToTarget)
-            GetDirectionToMove();
+        _controller.Update(Time.deltaTime);
+        _directionalMover.Update();
     }
+    public void SetMoveDirection(Vector3 direction) => _directionalMover.SetMoveDirection(direction);
 
     public void SetDeathMark() => _isDead = true;
 
-    public void Suicide()
-    {
-        Destroy(gameObject);
-    }
-
-    private void GetDirectionToMove()
-    {
-        Vector3 randomDirection = new Vector3(UnityEngine.Random.Range(-1, 2), 0, UnityEngine.Random.Range(-1, 2));
-        _targetPoint = _character.transform.position + randomDirection.normalized * UnityEngine.Random.Range(1, 4);
-
-        _directionToMove = _targetPoint - transform.position;
-    }
+    public void Suicide() => Destroy(gameObject);
 }

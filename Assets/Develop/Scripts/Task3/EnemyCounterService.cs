@@ -6,38 +6,34 @@ public class EnemyCounterService : MonoBehaviour
 {
     public event Action<int> CountEnemies—hanged;
 
-    private List<Enemy> _enemies = new List<Enemy>();
+    private Dictionary<Enemy, Func<bool>> _enemiesDestroyCondition = new Dictionary<Enemy, Func<bool>>();
+
     private List<Enemy> _enemiesToDestroy = new List<Enemy>();
 
-    public int EnemyCount => _enemies.Count;
+    public int EnemyCount => _enemiesDestroyCondition.Count;
 
-    public void AddEnemy(Enemy enemy, Func<Enemy, bool> destroyCondition)
+    public void AddEnemy(Enemy enemy, Func<bool> destroyCondition)
     {
-        enemy.DestroyCondition = destroyCondition;
-        _enemies.Add(enemy);
+        _enemiesDestroyCondition.Add(enemy, destroyCondition);
 
         CountEnemies—hanged?.Invoke(EnemyCount);
     }
 
     public void DestroyByCondition()
     {
-        if (_enemies.Count == 0)
+        if (_enemiesDestroyCondition.Count == 0)
             return;
 
-        for (int i = _enemies.Count - 1; i >= 0; i--)
-        {
-            if (_enemies[i].DestroyCondition(_enemies[i]))
-            {
-                _enemiesToDestroy.Add(_enemies[i]);
-                _enemies.RemoveAt(i);
-            }
-        }
+        foreach (KeyValuePair<Enemy, Func<bool>> pair in _enemiesDestroyCondition)
+            if (pair.Value.Invoke())
+                _enemiesToDestroy.Add(pair.Key);
 
         if (_enemiesToDestroy.Count == 0)
             return;
 
         for (int i = _enemiesToDestroy.Count - 1; i >= 0; i--)
         {
+            _enemiesDestroyCondition.Remove(_enemiesToDestroy[i]);
             _enemiesToDestroy[i].Suicide();
         }
 
