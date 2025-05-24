@@ -1,34 +1,36 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Example : MonoBehaviour
+namespace Task3_2728
 {
-    [SerializeField] private EnemyCounterService _enemyCounterService;
-    [SerializeField] private Enemy _enemyPrefab;
-
-    [SerializeField] private float _enemyMovingSpeed;
-
-    private void Update()
+    public class Example : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
-            enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
-            _enemyCounterService.AddEnemy(enemy, () => enemy.LifeTime > 10);
-        }
+        [SerializeField] private EnemyCounterService _enemyCounterService;
+        [SerializeField] private Enemy _enemyPrefab;
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
-            enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
-            _enemyCounterService.AddEnemy(enemy, () => _enemyCounterService.EnemyCount > 10);
-        }
+        [SerializeField] private float _enemyMovingSpeed;
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        private void Update()
         {
-            Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
-            enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
-            _enemyCounterService.AddEnemy(enemy, () => enemy.IsDead);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+                enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
+                _enemyCounterService.AddEnemy(enemy, () => enemy.LifeTime > 10);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+                enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
+                _enemyCounterService.AddEnemy(enemy, () => _enemyCounterService.EnemyCount > 10);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Enemy enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+                enemy.Initialize(new RandomMovementController(enemy, 2), _enemyMovingSpeed);
+                _enemyCounterService.AddEnemy(enemy, () => enemy.IsDead);
+            }
         }
     }
 }

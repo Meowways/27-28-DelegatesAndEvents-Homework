@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public interface IDirectionalMover 
+namespace Task3_2728
 {
-    Vector3 Position { get; }
+    public interface IDirectionalMover
+    {
+        Vector3 Position { get; }
 
-    void SetMoveDirection(Vector3 direction);
+        void SetMoveDirection(Vector3 direction);
+    }
 }

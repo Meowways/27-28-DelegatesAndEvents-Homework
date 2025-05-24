@@ -1,9 +1,12 @@
-public abstract class Controller
+namespace Task3_2728
 {
-    public void Update(float dealtaTime)
+    public abstract class Controller
     {
-        UpgradeLogic(dealtaTime);
-    }
+        public void Update(float dealtaTime)
+        {
+            UpgradeLogic(dealtaTime);
+        }
 
-    protected abstract void UpgradeLogic(float dealtaTime);
+        protected abstract void UpgradeLogic(float dealtaTime);
+    }
 }

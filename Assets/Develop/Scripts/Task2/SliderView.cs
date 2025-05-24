@@ -1,37 +1,39 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderView : MonoBehaviour
+namespace Task2_2728
 {
-    [SerializeField] private TextMeshProUGUI _text;
-    [SerializeField] private Slider _slider;
 
-    [SerializeField] private TimerService _timerService;
-
-    private void Start()
+    public class SliderView : MonoBehaviour
     {
-        _timerService.OnTickPassed += OnTickPassed;
+        [SerializeField] private Slider _slider;
 
-        _timerService.Stopped += OnStopped;
-    }
+        Timer _timer;
 
-    private void OnDestroy()
-    {
-        _timerService.OnTickPassed -= OnTickPassed;
+        public void Initialize(Timer timer)
+        {
+            _timer = timer;
 
-        _timerService.Stopped -= OnStopped;
-    }
+            _timer.OnTickPassed += OnTickPassed;
 
-    private void OnStopped()
-    {
-        _slider.value = _timerService.TimeLimit;
-        _text.text = _timerService.TimeLimit.ToString("0.0");
-    }
+            _timer.Started += OnStarted;
+        }
 
-    private void OnTickPassed(float time)
-    {
-        _slider.value = time / _timerService.TimeLimit;
-        _text.text = time.ToString("0.0");
+        private void OnDestroy()
+        {
+            _timer.OnTickPassed -= OnTickPassed;
+
+            _timer.Started -= OnStarted;
+        }
+
+        private void OnStarted(float time)
+        {
+            _slider.value = time;
+        }
+
+        private void OnTickPassed(float time)
+        {
+            _slider.value = time / _timer.TimeLimit;
+        }
     }
 }

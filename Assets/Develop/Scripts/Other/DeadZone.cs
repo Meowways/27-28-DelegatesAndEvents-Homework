@@ -1,24 +1,27 @@
 using UnityEngine;
 
-public class DeadZone : MonoBehaviour
+namespace Task3_2728
 {
-    [SerializeField] private TriggerReceiver[] _triggerReceivers;
-
-    private void Awake()
+    public class DeadZone : MonoBehaviour
     {
-        foreach (TriggerReceiver trigger in _triggerReceivers)
-            trigger.TriggerEnter += OnTriggerEnter;
-    }
+        [SerializeField] private TriggerReceiver[] _triggerReceivers;
 
-    private void OnDestroy()
-    {
-        foreach (TriggerReceiver trigger in _triggerReceivers)
-            trigger.TriggerEnter -= OnTriggerEnter;
-    }
+        private void Awake()
+        {
+            foreach (TriggerReceiver trigger in _triggerReceivers)
+                trigger.TriggerEnter += OnTriggerEnter;
+        }
 
-    private void OnTriggerEnter(Collider collider)
-    {
-        if (collider.TryGetComponent(out Enemy enemy))
-            enemy.SetDeathMark();
+        private void OnDestroy()
+        {
+            foreach (TriggerReceiver trigger in _triggerReceivers)
+                trigger.TriggerEnter -= OnTriggerEnter;
+        }
+
+        private void OnTriggerEnter(Collider collider)
+        {
+            if (collider.TryGetComponent(out Enemy enemy))
+                enemy.SetDeathMark();
+        }
     }
 }

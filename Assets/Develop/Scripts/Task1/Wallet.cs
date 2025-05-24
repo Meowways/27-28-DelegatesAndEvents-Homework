@@ -1,18 +1,26 @@
 using System.Collections.Generic;
 
-namespace Task1
+namespace Task1_2728
 {
     public class Wallet
     {
-        private Dictionary<CurrencyType, Currency> _currency = new Dictionary<CurrencyType, Currency>();
+        private Dictionary<CurrencyType, Currency> _currencies = new Dictionary<CurrencyType, Currency>();
 
-        public Wallet(Currency coin, Currency gem, Currency energy)
+        public Wallet(params Currency[] currencies)
         {
-            _currency.Add(CurrencyType.Coins, coin);
-            _currency.Add(CurrencyType.Gems, gem);
-            _currency.Add(CurrencyType.Energy, energy);
+            foreach (Currency currency in currencies)
+                _currencies.Add(currency.CurrencyType, currency);
         }
 
-        public Dictionary<CurrencyType, Currency> Currency => _currency;
+        public Dictionary<CurrencyType, Currency> Currencies => _currencies;
+
+        public void Add(CurrencyType currencyType, int currencyValue)
+            => _currencies[currencyType].Add(currencyValue);
+
+        public void Substract(CurrencyType currencyType, int currencyValue)
+            => _currencies[currencyType].Substract(currencyValue);
+
+        public Currency GetCurrencyType(CurrencyType currencyType)
+            => _currencies[currencyType];
     }
 }

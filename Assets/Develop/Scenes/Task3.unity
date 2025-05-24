@@ -523,6 +523,7 @@ MonoBehaviour:
   _enemyCounterService: {fileID: 2055661554}
   _enemyPrefab: {fileID: 7146472133274933468, guid: c7f96da9a1b19fd42a264526937bbc71,
     type: 3}
+  _enemyMovingSpeed: 2
 --- !u!4 &557575664
 Transform:
   m_ObjectHideFlags: 0

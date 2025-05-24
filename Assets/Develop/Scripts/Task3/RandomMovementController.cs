@@ -1,31 +1,34 @@
 using UnityEngine;
 
-public class RandomMovementController : Controller
+namespace Task3_2728
 {
-    private IDirectionalMover _character;
-
-    private Vector3 _currentDirection;
-
-    private float _time;
-    private float _timeToChangeDirection;
-
-    public RandomMovementController(IDirectionalMover character, float timeToChangeDirection)
+    public class RandomMovementController : Controller
     {
-        _character = character;
+        private IDirectionalMover _character;
 
-        _timeToChangeDirection = _time = timeToChangeDirection;
-    }
+        private Vector3 _currentDirection;
 
-    protected override void UpgradeLogic(float deltaTime)
-    {
-        _time += deltaTime;
+        private float _time;
+        private float _timeToChangeDirection;
 
-        if (_time > _timeToChangeDirection)
+        public RandomMovementController(IDirectionalMover character, float timeToChangeDirection)
         {
-            _currentDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
-            _time = 0;
+            _character = character;
+
+            _timeToChangeDirection = _time = timeToChangeDirection;
         }
 
-        _character.SetMoveDirection(_currentDirection);
+        protected override void UpgradeLogic(float deltaTime)
+        {
+            _time += deltaTime;
+
+            if (_time > _timeToChangeDirection)
+            {
+                _currentDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+                _time = 0;
+            }
+
+            _character.SetMoveDirection(_currentDirection);
+        }
     }
 }

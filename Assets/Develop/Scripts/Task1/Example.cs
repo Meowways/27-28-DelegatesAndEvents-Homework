@@ -1,21 +1,42 @@
 using UnityEngine;
 
-namespace Task1
+namespace Task1_2728
 {
     public class Example : MonoBehaviour
     {
-        [SerializeField] private WalletService _walletService;
+        [SerializeField] private WalletView _walletView;
 
-        public void AddCoin() => _walletService.Add(CurrencyType.Coins, 10);
+        private Wallet _wallet;
 
-        public void AddGems() => _walletService.Add(CurrencyType.Gems, 10);
+        private void Awake()
+        {
+            _wallet = new Wallet(
+                new Currency(CurrencyType.Coins, 10),
+                new Currency(CurrencyType.Gems, 10),
+                new Currency(CurrencyType.Energy, 10));
+        }
 
-        public void AddEnergy() => _walletService.Add(CurrencyType.Energy, 10);
+        private void Start()
+        {
+            _walletView.Initialize(_wallet);
+        }
 
-        public void SubstractCoin() => _walletService.Substract(CurrencyType.Coins, 10);
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                _wallet.GetCurrencyType(CurrencyType.Coins).Add(250);
 
-        public void SubstractGems() => _walletService.Substract(CurrencyType.Gems, 10);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                _wallet.GetCurrencyType(CurrencyType.Gems).Add(10);
 
-        public void SubstractEnergy() => _walletService.Substract(CurrencyType.Energy, 10);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                _wallet.GetCurrencyType(CurrencyType.Energy).Add(5);
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                foreach (Currency currency in _wallet.Currencies.Values)
+                    currency.Substract(10);
+            }
+        }
     }
 }

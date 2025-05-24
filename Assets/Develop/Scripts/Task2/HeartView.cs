@@ -2,67 +2,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeartView : MonoBehaviour
+namespace Task2_2728
 {
-    [SerializeField] private GameObject _heartPrefab;
-
-    [SerializeField] private Sprite _hearthA;
-    [SerializeField] private Sprite _hearthB;
-
-    [SerializeField] private TimerService _timerService;
-
-    private List<Image> _hearts = new List<Image>();
-
-    private void Start()
+    public class HeartView : MonoBehaviour
     {
-        CreateHearths();
+        [SerializeField] private GameObject _heartPrefab;
+        [SerializeField] private Transform _spawnPosition;
 
-        _timerService.Started += OnStarted;
-        _timerService.Stopped += OnStopped;
+        [SerializeField] private Sprite _hearthA;
+        [SerializeField] private Sprite _hearthB;
 
-        _timerService.OnSecondPassed += OnSecondPassed;
-    }
+        private List<Image> _hearts = new List<Image>();
 
-    private void OnDestroy()
-    {
-        _timerService.Started -= OnStarted;
-        _timerService.Stopped -= OnStopped;
+        private Timer _timer;
 
-        _timerService.OnSecondPassed -= OnSecondPassed;
-    }
-
-
-    private void OnStarted()
-    {
-        foreach (Image heart in _hearts)
-            heart.gameObject.SetActive(true);
-    }
-
-    private void OnStopped()
-    {
-        foreach (Image heart in _hearts)
-            heart.gameObject.SetActive(false);
-    }
-
-    private void OnSecondPassed(float time)
-    {
-        for (int i = 0; i < _hearts.Count; i++)
+        public void Initialize(Timer timer)
         {
-            if (i < (int)time)
-                _hearts[i].sprite = _hearthA;
-            else
-                _hearts[i].sprite = _hearthB;
+            _timer = timer;
+
+            _timer.Started += OnStarted;
+            _timer.Stopped += OnStopped;
+
+            _timer.OnSecondPassed += OnSecondPassed;
         }
-    }
 
-    private void CreateHearths()
-    {
-        for (int i = 0; i < _timerService.TimeLimit; i++)
+        private void OnDestroy()
         {
-            GameObject heart = Instantiate(_heartPrefab, transform);
-            heart.SetActive(false);
-    
-            _hearts.Add(heart.GetComponent<Image>());
+            _timer.Started -= OnStarted;
+            _timer.Stopped -= OnStopped;
+
+            _timer.OnSecondPassed -= OnSecondPassed;
+        }
+
+        private void OnStarted(float time)
+        {
+            if (_hearts.Count <= 0)
+            {
+                CreateHearths();
+                OnSecondPassed(_timer.ElapsedTime);
+            }
+        }
+
+        private void OnStopped()
+        {
+            for (int i = _hearts.Count - 1; i >= 0; i--)
+                Destroy(_hearts[i].gameObject);
+
+            _hearts.Clear();
+        }
+
+        private void OnSecondPassed(float time)
+        {
+            Debug.Log(time);
+            for (int i = _hearts.Count - 1; i >= 0; i--)
+            {
+                if (i < (int)time)
+                    _hearts[i].sprite = _hearthA;
+                else
+                    _hearts[i].sprite = _hearthB;
+            }
+        }
+
+        private void CreateHearths()
+        {
+            for (int i = 0; i < _timer.TimeLimit; i++)
+            {
+                GameObject heart = Instantiate(_heartPrefab, _spawnPosition);
+                _hearts.Add(heart.GetComponent<Image>());
+            }
         }
     }
 }

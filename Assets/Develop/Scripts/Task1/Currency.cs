@@ -1,18 +1,16 @@
 using System;
 using UnityEngine;
 
-namespace Task1
+namespace Task1_2728
 {
     public class Currency
     {
-        public event Action<int> CurrencyChanged;
+        public event Action<CurrencyType, int> CurrencyChanged;
 
         private int _value;
 
-        public Currency(Sprite icon, CurrencyType currencyType, int value = 0)
+        public Currency(CurrencyType currencyType, int value = 0)
         {
-            Icon = icon;
-
             CurrencyType = currencyType;
 
             _value = value;
@@ -31,7 +29,7 @@ namespace Task1
 
             _value += value;
 
-            CurrencyChanged?.Invoke(_value);
+            CurrencyChanged?.Invoke(CurrencyType, _value);
         }
 
         public void Substract(int value)
@@ -44,7 +42,7 @@ namespace Task1
             if (_value < 0)
                 _value = 0;
 
-            CurrencyChanged?.Invoke(_value);
+            CurrencyChanged?.Invoke(CurrencyType, _value);
         }
     }
 }

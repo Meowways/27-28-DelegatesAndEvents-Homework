@@ -1,24 +1,26 @@
-
 using UnityEngine;
 
-public class DirectionalMover 
+namespace Task3_2728
 {
-    private CharacterController _controller;
-
-    private Vector3 _directionToMove;
-
-    private float _movingSpeed;
-
-    public DirectionalMover(CharacterController controller, float movingSpeed)
+    public class DirectionalMover
     {
-        _controller = controller;
-        _movingSpeed = movingSpeed;
-    }
+        private CharacterController _controller;
 
-    public void Update()
-    {
-        _controller.Move(_directionToMove * _movingSpeed * Time.deltaTime);
-    }
+        private Vector3 _directionToMove;
 
-    public void SetMoveDirection(Vector3 direction) => _directionToMove = direction;
+        private float _movingSpeed;
+
+        public DirectionalMover(CharacterController controller, float movingSpeed)
+        {
+            _controller = controller;
+            _movingSpeed = movingSpeed;
+        }
+
+        public void Update()
+        {
+            _controller.Move(_directionToMove * _movingSpeed * Time.deltaTime);
+        }
+
+        public void SetMoveDirection(Vector3 direction) => _directionToMove = direction;
+    }
 }
