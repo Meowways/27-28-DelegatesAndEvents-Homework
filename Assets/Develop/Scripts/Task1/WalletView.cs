@@ -1,6 +1,5 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Task1_2728
 {
@@ -8,28 +7,17 @@ namespace Task1_2728
     {
         private Wallet _wallet;
 
-        [SerializeField] private Sprite _spriteCoins;
-        [SerializeField] private Sprite _spriteGems;
-        [SerializeField] private Sprite _spriteEnergy;
+        [SerializeField] private GameObject _currencyPrefab;
 
-        [SerializeField] private Image _iconCoins;
-        [SerializeField] private Image _iconGems;
-        [SerializeField] private Image _iconEnergy;
+        [SerializeField] private Sprite[] _icon;
 
-        [SerializeField] private TextMeshProUGUI _valueCoins;
-        [SerializeField] private TextMeshProUGUI _valueGems;
-        [SerializeField] private TextMeshProUGUI _valueEnergy;
-
-        private void Awake()
-        {
-            _iconCoins.sprite = _spriteCoins;
-            _iconGems.sprite = _spriteGems;
-            _iconEnergy.sprite = _spriteEnergy;
-        }
+        private Dictionary<CurrencyType, CurrencyView> _currencies = new Dictionary<CurrencyType, CurrencyView>();
 
         public void Initialize(Wallet wallet)
         {
             _wallet = wallet;
+
+            CurrenciesView();
 
             foreach (Currency currency in _wallet.Currencies.Values)
             {
@@ -45,23 +33,17 @@ namespace Task1_2728
                 currency.CurrencyChanged -= OnValueChanged;
         }
 
-        private void OnValueChanged(CurrencyType currencyType, int value)
+        private void CurrenciesView()
         {
-            switch (currencyType)
+            foreach (CurrencyType type in _wallet.Currencies.Keys)
             {
-                case CurrencyType.Coins:
-                    _valueCoins.text = value.ToString();
-                    break;
-                case CurrencyType.Gems:
-                    _valueGems.text = value.ToString();
-                    break;
-                case CurrencyType.Energy:
-                    _valueEnergy.text = value.ToString();
-                    break;
-                default:
-                    Debug.LogError("A new unknown currency");
-                    break;
+                CurrencyView currency = Instantiate(_currencyPrefab, transform).GetComponent<CurrencyView>();
+                currency.Initialize(type, _icon[(int)type]);
+
+                _currencies.Add(type, currency);
             }
         }
+
+        private void OnValueChanged(CurrencyType currencyType, int value) => _currencies[currencyType].OnChangeValue(value);
     }
 }
