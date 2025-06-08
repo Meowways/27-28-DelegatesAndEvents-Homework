@@ -6,17 +6,17 @@ using UnityEngine.UI;
 namespace Task1_2728
 {
     [Serializable]
-    public class CurrencyView : MonoBehaviour, IDisposable
+    public class CurrencyView : MonoBehaviour
     {
         [SerializeField] private Image _icon;
 
         [SerializeField] private TextMeshProUGUI _value;
 
-        private ReactiveVarible<int> _current;
+        private IReadOnlyVarible<float> _current;
 
-        public void Initialize(Currency currency, Sprite icon)
+        public void Initialize(IReadOnlyVarible<float> curerency, Sprite icon)
         {
-            _current = currency.Value;
+            _current = curerency;
             _current.Changed += OnChangeValue;
 
             CurrencyUpdate(default, _current.Value);
@@ -24,14 +24,14 @@ namespace Task1_2728
             _icon.sprite = icon;
         }
 
-        public void Dispose()
+        private void OnDestroy()
         {
             _current.Changed -= OnChangeValue;
         }
 
-        public void OnChangeValue(int oldValue, int newValue) => CurrencyUpdate(_current.Value, newValue);
+        private void OnChangeValue(float oldValue, float newValue) => CurrencyUpdate(_current.Value, newValue);
 
-        private void CurrencyUpdate(int currentValue, int newValue) => _value.text = newValue.ToString();
+        private void CurrencyUpdate(float currentValue, float newValue) => _value.text = newValue.ToString();
 
     }
 }

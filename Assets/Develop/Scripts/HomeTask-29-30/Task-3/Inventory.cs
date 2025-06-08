@@ -4,70 +4,58 @@ using System.Linq;
 
 public class Inventory
 {
-    private List<Item> _items = new();
+    private List<Item> _items;
 
-    private int _maxSize;
+    private int _capacity;
 
-    public Inventory(List<Item> items, int maxSize)
+    public Inventory(List<Item> items, int capacity)
     {
+        if (items.Count > capacity)
+            throw new InvalidOperationException($"Невозможно добавить {items.Count} предметов. Максимум: {capacity}.");
+
         _items = new List<Item>(items);
-        _maxSize = maxSize;
+        _capacity = capacity;
     }
 
     public IReadOnlyList<Item> Items => _items;
 
-    public int CurrentSize => _items.Sum(item => item.Count);
+    public int Capacity => _capacity;
+    public int OccupiedCell => _items.Count;
+    public int EmptyCell => Capacity - OccupiedCell;
 
-    public int MaxSize => _maxSize;
+    public bool HasEmptyCell => EmptyCell > 0;
 
     public void Add(Item item)
     {
-        if (CurrentSize + item.Count > MaxSize)
-            return;
+        if (HasEmptyCell == false)
+            throw new InvalidOperationException("Инвентарь полный.");
 
-        Item inneritem = _items.FirstOrDefault(innerItem => innerItem.ID == item.ID);
-
-        if (inneritem != null)
-            inneritem.Add(item.Count);
-        else
-            _items.Add(item);
+        _items.Add(item);
     }
 
-    public Item GetItemsBy(int id, int count)
+    public List<Item> GetItemsBy(int id, int count)
     {
-        Item item = _items.FirstOrDefault(item => item.ID == id);
+        List<Item> items = _items.Where(item => item.ID == id).Take(count).ToList();
 
-        if (item == null)
-            throw new ArgumentException($"Item with ID {id} not found.");
+        if (items.Count == 0)
+            throw new ArgumentException($"Предмет с ID - {id} отсутствует в инвентаре.");
 
-        if (item.Count < count)
-            throw new InvalidOperationException($"Cannot return {count} items. Only {item.Count} available.");
+        if (items.Count < count)
+            throw new InvalidOperationException($"Не возможно вернуть {count} предметов. Имеется {items.Count} предметов.");
 
-        item.Subtract(count);
-
-        if (item.Count == 0)
+        foreach (Item item in items)
             _items.Remove(item);
 
-        return new Item(id, count);
+        return items;
     }
 }
 
 public class Item
 {
-    public Item(int iD, int count)
+    public Item(int id)
     {
-        ID = iD;
-
-        if (count > 0)
-            Count = count;
-        else
-            Count = 0;
+        ID = id;
     }
 
     public int ID { get; private set; }
-    public int Count { get; private set; }
-
-    public void Add(int additionalValue) => Count += additionalValue;
-
-    public void Subtract(int subtractetValue) => Count -= subtractetValue;
 }

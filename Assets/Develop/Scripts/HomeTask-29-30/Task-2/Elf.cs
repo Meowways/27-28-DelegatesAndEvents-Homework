@@ -6,11 +6,11 @@ public class Elf : Enemy
 
     public override void Initialize(ISettings settings)
     {
-        if (settings is ElfSettings elfSettings)
+        if (settings is ElfSettings elfSetteings)
         {
-            _intelligence = elfSettings.Intelligence;
-            _magicDamage = elfSettings.MagicDamage;
-            _luck = elfSettings.Luck;
+            _intelligence = elfSetteings.Intelligence;
+            _magicDamage = elfSetteings.MagicDamage;
+            _luck = elfSetteings.Luck;
         }
     }
 

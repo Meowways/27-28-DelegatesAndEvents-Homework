@@ -11,30 +11,20 @@ namespace Task1_2728
 
         [SerializeField] private CurrencyView _currencyPrefab;
 
-        [SerializeField] private CurrenciesIcon[] _currencyIcon;
-
-        private List<CurrencyView> _currenciesView = new();
+        [SerializeField] private CurrenciesIcon[] _currenciesIcon;
 
         public void Initialize(Wallet wallet)
         {
             _wallet = wallet;
 
-            foreach (Currency currency in _wallet.Currencies.Values)
+            foreach (KeyValuePair<CurrencyType, IReadOnlyVarible<float>> currency in _wallet.Currencies)
             {
-                CurrencyView currencyView = Instantiate(_currencyPrefab, transform);
-                currencyView.Initialize(currency, GetIconBy(currency.CurrencyType));
-
-                _currenciesView.Add(currencyView);
+                CurrencyView newCurrency = Instantiate(_currencyPrefab, transform);
+                newCurrency.Initialize(currency.Value, GetIconBy(currency.Key));
             }
         }
 
-        private void OnDestroy()
-        {
-            foreach (CurrencyView currencyView in _currenciesView)
-                currencyView.Dispose();
-        }
-
-        private Sprite GetIconBy(CurrencyType currencyType) => _currencyIcon.First(icon => icon.Type == currencyType).Icon;
+        private Sprite GetIconBy(CurrencyType currencyType) => _currenciesIcon.First(icon => icon.Type == currencyType).Icon;
 
         [Serializable]
         private class CurrenciesIcon

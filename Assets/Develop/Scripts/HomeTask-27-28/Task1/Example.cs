@@ -10,10 +10,7 @@ namespace Task1_2728
 
         private void Awake()
         {
-            _wallet = new Wallet(
-                new Currency(CurrencyType.Coins, 20),
-                new Currency(CurrencyType.Gems, 40),
-                new Currency(CurrencyType.Energy, 80));
+            _wallet = new Wallet(CurrencyType.Coins, CurrencyType.Gems, CurrencyType.Energy);
         }
 
         private void Start()

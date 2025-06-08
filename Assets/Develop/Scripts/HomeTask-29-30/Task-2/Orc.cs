@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-public class Ork : Enemy
+public class Orc : Enemy
 {
     private float _strength;
     private float _damage;
@@ -8,7 +8,7 @@ public class Ork : Enemy
 
     public override void Initialize(ISettings settings)
     {
-        if (settings is OrkSettings orkSettings)
+        if (settings is OrcSettings orkSettings)
         {
             _strength = orkSettings.Strength;
             _damage = orkSettings.Damage;
