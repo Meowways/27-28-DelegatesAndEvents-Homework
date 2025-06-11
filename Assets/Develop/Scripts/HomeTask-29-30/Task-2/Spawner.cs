@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _orcPrefab;
-    [SerializeField] private Enemy _elfPrefab;
-    [SerializeField] private Enemy _dragonPrefab;
+    [SerializeField] private Orc _orcPrefab;
+    [SerializeField] private Elf _elfPrefab;
+    [SerializeField] private Dragon _dragonPrefab;
 
     [SerializeField] private EnemiesSettings _enemiesSetting;
 
@@ -25,7 +25,7 @@ public class Spawner : MonoBehaviour
         _enemies.Add(CreateEnemy(_enemiesSetting.OrcSettings[0]));
 
         foreach (Enemy enemy in _enemies)
-            Debug.Log(enemy.GetStats());
+            Debug.Log(enemy.ShowStats());
     }
 
     public Enemy CreateEnemy(ISettings settings)
@@ -33,17 +33,17 @@ public class Spawner : MonoBehaviour
         switch (settings)
         {
             case OrcSettings orcSettings:
-                Enemy orc = Instantiate(_orcPrefab, transform);
+                Orc orc = Instantiate(_orcPrefab, transform);
                 orc.Initialize(orcSettings);
                 return orc;
 
             case ElfSettings elfSettings:
-                Enemy elf = Instantiate(_elfPrefab, transform);
+                Elf elf = Instantiate(_elfPrefab, transform);
                 elf.Initialize(elfSettings);
                 return elf;
 
             case DragonSettings dragonSettings:
-                Enemy dragon = Instantiate(_dragonPrefab, transform);
+                Dragon dragon = Instantiate(_dragonPrefab, transform);
                 dragon.Initialize(dragonSettings);
                 return dragon;
 

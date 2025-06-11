@@ -1,23 +1,15 @@
-using System.Diagnostics;
-
 public class Orc : Enemy
 {
     private float _strength;
     private float _damage;
     private float _armor;
 
-    public override void Initialize(ISettings settings)
+    public void Initialize(OrcSettings orcSettings)
     {
-        if (settings is OrcSettings orkSettings)
-        {
-            _strength = orkSettings.Strength;
-            _damage = orkSettings.Damage;
-            _armor = orkSettings.Armor;
-        }
+        _strength = orcSettings.Strength;
+        _damage = orcSettings.Damage;
+        _armor = orcSettings.Armor;
     }
 
-    public override string GetStats()
-    {
-        return $"Strength - {_strength}; Damage - {_damage}; Armor - {_armor};";
-    }
+    public override string ShowStats() => $"Strength - {_strength}; Damage - {_damage}; Armor - {_armor};";
 }

@@ -4,18 +4,13 @@ public class Dragon : Enemy
     private float _rage;
     private float _speed;
 
-    public override void Initialize(ISettings settings)
+    public void Initialize(DragonSettings dragonSettings)
     {
-        if (settings is DragonSettings dragonSettings)
-        {
-            _agility = dragonSettings.Agility;
-            _rage = dragonSettings.Rage;
-            _speed = dragonSettings.Speed;
-        }
+        _agility = dragonSettings.Agility;
+        _rage = dragonSettings.Rage;
+        _speed = dragonSettings.Speed;
     }
 
-    public override string GetStats()
-    {
-        return $"Agility - {_agility}; Rage - {_rage}; Speed - {_speed};";
-    }
+    public override string ShowStats() => $"Agility - {_agility}; Rage - {_rage}; Speed - {_speed};";
+
 }

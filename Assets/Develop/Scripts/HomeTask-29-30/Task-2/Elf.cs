@@ -4,18 +4,12 @@ public class Elf : Enemy
     private float _magicDamage;
     private float _luck;
 
-    public override void Initialize(ISettings settings)
+    public void Initialize(ElfSettings elfSettings)
     {
-        if (settings is ElfSettings elfSetteings)
-        {
-            _intelligence = elfSetteings.Intelligence;
-            _magicDamage = elfSetteings.MagicDamage;
-            _luck = elfSetteings.Luck;
-        }
+        _intelligence = elfSettings.Intelligence;
+        _magicDamage = elfSettings.MagicDamage;
+        _luck = elfSettings.Luck;
     }
 
-    public override string GetStats()
-    {
-        return $"Intelligence - {_intelligence}; MagicDamage - {_magicDamage}; Luck - {_luck};";
-    }
+    public override string ShowStats() => $"Intelligence - {_intelligence}; MagicDamage - {_magicDamage}; Luck - {_luck};";
 }

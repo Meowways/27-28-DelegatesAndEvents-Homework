@@ -621,16 +621,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897e781436d9d134e87549890bc03b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefabs:
-  - Type: 0
-    EnemyPrefab: {fileID: 3191828082660643683, guid: 3941dc85f8d8c634092217102d9de510,
-      type: 3}
-  - Type: 1
-    EnemyPrefab: {fileID: 5016087993133460991, guid: 9db2feedec9d99c4788e78d245bffc43,
-      type: 3}
-  - Type: 2
-    EnemyPrefab: {fileID: 6935557348665642542, guid: dfdd0494c8a430043a4d7325ec415ffd,
-      type: 3}
+  _orcPrefab: {fileID: 3191828082660643683, guid: 3941dc85f8d8c634092217102d9de510,
+    type: 3}
+  _elfPrefab: {fileID: 5016087993133460991, guid: 9db2feedec9d99c4788e78d245bffc43,
+    type: 3}
+  _dragonPrefab: {fileID: 6935557348665642542, guid: dfdd0494c8a430043a4d7325ec415ffd,
+    type: 3}
   _enemiesSetting:
     OrcSettings:
     - <Strength>k__BackingField: 10
