@@ -1,47 +1,63 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private EnemyPrefabs[] _enemyPrefabs;
+    [SerializeField] private Enemy _orcPrefab;
+    [SerializeField] private Enemy _elfPrefab;
+    [SerializeField] private Enemy _dragonPrefab;
+
     [SerializeField] private EnemiesSettings _enemiesSetting;
+
+    private List<Enemy> _enemies = new();
 
     private void Awake()
     {
-        SpawnEnemiesBy(EnemyType.Orc, 3);
-        SpawnEnemiesBy(EnemyType.Elf, 3);
-        SpawnEnemiesBy(EnemyType.Dragon, 3);
+        for (int i = 0; i < 3; i++)
+        {
+            _enemies.Add(CreateEnemy(_enemiesSetting.GetEnemySettingBy(EnemyType.Orc)));
+            _enemies.Add(CreateEnemy(_enemiesSetting.GetEnemySettingBy(EnemyType.Elf)));
+            _enemies.Add(CreateEnemy(_enemiesSetting.GetEnemySettingBy(EnemyType.Dragon)));
+        }
+
+        _enemies.Add(CreateEnemy(_enemiesSetting.OrcSettings[0]));
+
+        foreach (Enemy enemy in _enemies)
+            Debug.Log(enemy.GetStats());
     }
 
-    private void SpawnEnemiesBy(EnemyType enemyType, int countEnemies)
+    public Enemy CreateEnemy(ISettings settings)
     {
-        for (int i = 0; i < countEnemies; i++)
-            CreateEnemy(enemyType);
-    }
+        switch (settings)
+        {
+            case OrcSettings orcSettings:
+                Enemy orc = Instantiate(_orcPrefab, transform);
+                orc.Initialize(orcSettings);
+                return orc;
 
-    private void CreateEnemy(EnemyType enemyType)
-    {
-        Enemy newEnemy = Instantiate(_enemyPrefabs.First(enemy => enemy.Type == enemyType).EnemyPrefab, transform);
-        newEnemy.Initialize(_enemiesSetting.GetEnemySettingBy(enemyType));
+            case ElfSettings elfSettings:
+                Enemy elf = Instantiate(_elfPrefab, transform);
+                elf.Initialize(elfSettings);
+                return elf;
 
-        Debug.Log(newEnemy.GetStats());
-    }
+            case DragonSettings dragonSettings:
+                Enemy dragon = Instantiate(_dragonPrefab, transform);
+                dragon.Initialize(dragonSettings);
+                return dragon;
 
-    [Serializable]
-    private class EnemyPrefabs
-    {
-        [field: SerializeField] public EnemyType Type;
-        [field: SerializeField] public Enemy EnemyPrefab;
+            default:
+                throw new InvalidOperationException($"Unsupported enemy settings");
+        }
     }
 
     [Serializable]
     public class EnemiesSettings 
     {
-        [field: SerializeField] private OrcSettings[] OrcSettings;
-        [field: SerializeField] private ElfSettings[] ElfSettings;
-        [field: SerializeField] private DragonSettings[] DragonSettings;
+        [field: SerializeField] public OrcSettings[] OrcSettings;
+        [field: SerializeField] public ElfSettings[] ElfSettings;
+        [field: SerializeField] public DragonSettings[] DragonSettings;
 
         public ISettings GetEnemySettingBy(EnemyType enemyType)
         {

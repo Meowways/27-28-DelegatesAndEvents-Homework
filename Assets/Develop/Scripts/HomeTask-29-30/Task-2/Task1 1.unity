@@ -122,7 +122,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &273118093
+--- !u!1 &185534828
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,70 +130,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 273118095}
-  - component: {fileID: 273118094}
+  - component: {fileID: 185534830}
+  - component: {fileID: 185534829}
   m_Layer: 0
-  m_Name: EnemiesSettings
+  m_Name: InventoryExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &273118094
+--- !u!114 &185534829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273118093}
+  m_GameObject: {fileID: 185534828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8ae58be9dd25f54694439e69a4ff2fa, type: 3}
+  m_Script: {fileID: 11500000, guid: be132958827f70a4fbcb67cbab7d51c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <DragonSettings>k__BackingField:
-  - <Agility>k__BackingField: 11
-    <Rage>k__BackingField: 2
-    <Speed>k__BackingField: 3
-  - <Agility>k__BackingField: 22
-    <Rage>k__BackingField: 4
-    <Speed>k__BackingField: 5
-  - <Agility>k__BackingField: 33
-    <Rage>k__BackingField: 8
-    <Speed>k__BackingField: 8
-  - <Agility>k__BackingField: 44
-    <Rage>k__BackingField: 16
-    <Speed>k__BackingField: 13
-  <OrkSettings>k__BackingField:
-  - <Strength>k__BackingField: 500
-    <Damage>k__BackingField: 1000
-    <Armor>k__BackingField: 0
-  - <Strength>k__BackingField: 250
-    <Damage>k__BackingField: 250
-    <Armor>k__BackingField: 250
-  - <Strength>k__BackingField: 100
-    <Damage>k__BackingField: 100
-    <Armor>k__BackingField: 1000
-  <ElfSettings>k__BackingField:
-  - <Intelligence>k__BackingField: 200
-    <MagicDamage>k__BackingField: 30
-    <Luck>k__BackingField: 777
-  - <Intelligence>k__BackingField: 20
-    <MagicDamage>k__BackingField: 3
-    <Luck>k__BackingField: 77
-  - <Intelligence>k__BackingField: 10
-    <MagicDamage>k__BackingField: 3
-    <Luck>k__BackingField: 7
---- !u!4 &273118095
+--- !u!4 &185534830
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273118093}
+  m_GameObject: {fileID: 185534828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 134.3023, y: 434.6683, z: 158.69814}
+  m_LocalPosition: {x: 134.19504, y: 436.9986, z: 156.80084}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -654,13 +621,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897e781436d9d134e87549890bc03b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orkPrefab: {fileID: 2556322608301318379, guid: 3941dc85f8d8c634092217102d9de510,
-    type: 3}
-  _elfPrefab: {fileID: 5016087993133460991, guid: 9db2feedec9d99c4788e78d245bffc43,
-    type: 3}
-  _dragonPrefab: {fileID: 6935557348665642542, guid: dfdd0494c8a430043a4d7325ec415ffd,
-    type: 3}
-  _enemiesSetting: {fileID: 273118094}
+  _enemyPrefabs:
+  - Type: 0
+    EnemyPrefab: {fileID: 3191828082660643683, guid: 3941dc85f8d8c634092217102d9de510,
+      type: 3}
+  - Type: 1
+    EnemyPrefab: {fileID: 5016087993133460991, guid: 9db2feedec9d99c4788e78d245bffc43,
+      type: 3}
+  - Type: 2
+    EnemyPrefab: {fileID: 6935557348665642542, guid: dfdd0494c8a430043a4d7325ec415ffd,
+      type: 3}
+  _enemiesSetting:
+    OrcSettings:
+    - <Strength>k__BackingField: 10
+      <Damage>k__BackingField: 10
+      <Armor>k__BackingField: 50
+    - <Strength>k__BackingField: 20
+      <Damage>k__BackingField: 20
+      <Armor>k__BackingField: 40
+    - <Strength>k__BackingField: 30
+      <Damage>k__BackingField: 30
+      <Armor>k__BackingField: 30
+    - <Strength>k__BackingField: 40
+      <Damage>k__BackingField: 40
+      <Armor>k__BackingField: 20
+    ElfSettings:
+    - <Intelligence>k__BackingField: 200
+      <MagicDamage>k__BackingField: 250
+      <Luck>k__BackingField: 20
+    - <Intelligence>k__BackingField: 20
+      <MagicDamage>k__BackingField: 25
+      <Luck>k__BackingField: 100
+    DragonSettings:
+    - <Agility>k__BackingField: 50
+      <Rage>k__BackingField: 30
+      <Speed>k__BackingField: 25
+    - <Agility>k__BackingField: 25
+      <Rage>k__BackingField: 30
+      <Speed>k__BackingField: 50
+    - <Agility>k__BackingField: 100
+      <Rage>k__BackingField: 100
+      <Speed>k__BackingField: 100
 --- !u!114 &1366714025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -760,6 +761,6 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 273118095}
   - {fileID: 1133963562}
   - {fileID: 1442390770}
+  - {fileID: 185534830}
